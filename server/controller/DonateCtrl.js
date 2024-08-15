@@ -2,7 +2,7 @@ const Donate = require("../Models/Donate");
 //const Rank = require("../Models/Rank");
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const uri =
-  "mongodb+srv://sumanth:sumanth@blooddonationappcluster.pjoix.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+  "mongodb+srv://suhaskubasad20:suhas8431@cluster0.dfmgg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 /*
 deleteDonate = (req, res) => {
   const body = req.body;

@@ -1,6 +1,6 @@
 const Chat = require("../Models/Chat");
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri ="mongodb+srv://sumanth:sumanth@blooddonationappcluster.pjoix.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+const uri ="mongodb+srv://suhaskubasad20:suhas8431@cluster0.dfmgg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 
 

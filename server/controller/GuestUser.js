@@ -2,7 +2,7 @@ const Guest = require("../Models/Guest");
 const { MongoClient, ServerApiVersion } = require("mongodb");
 const Rank = require("../Models/Rank");
 const uri =
-  "mongodb+srv://sumanth:sumanth@blooddonationappcluster.pjoix.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+  "mongodb+srv://suhaskubasad20:suhas8431@cluster0.dfmgg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 guestSign = (req, res) => {
   console.log("guestSignup function in");

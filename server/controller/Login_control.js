@@ -12,7 +12,7 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 //const uri ="mongodb+srv://Sumanthsk:Sumanth@8197@cluster0.q8fmu.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 //const client = new MongoClient(uri, { useUnifiedTopology: true });
 //client.connect();
-const uri ="mongodb+srv://sumanth:sumanth@blooddonationappcluster.pjoix.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+const uri ="mongodb+srv://suhaskubasad20:suhas8431@cluster0.dfmgg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
 
 

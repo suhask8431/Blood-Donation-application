@@ -1,6 +1,8 @@
 const BankInfo = require("../Models/Login_model");
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri ="mongodb+srv://sumanth:sumanth@blooddonationappcluster.pjoix.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+const uri ="mongodb+srv://suhaskubasad20:suhas8431@cluster0.dfmgg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+
+
 
 
 
