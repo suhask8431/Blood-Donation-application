@@ -1,40 +1,47 @@
+// server/mapcontainer.js
+
 import React from 'react';
-import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
+import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 
+export function MapContainer(props) {
+    const [infoWindowOpen, setInfoWindowOpen] = React.useState(false);
 
-export class MapContainer extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
+    const arrvals = props.coords.split(',');
+    const center = { lat: parseFloat(arrvals[0]), lng: parseFloat(arrvals[1]) };
 
-    render() {
-        var arrvals = this.props.coords.split(',')
-        var corrds={lat:arrvals[0],lng:arrvals[1]}
-        return (
-            <div>
-                <Map google={this.props.google} style={this.props.styles} zoom={15} initialCenter={corrds}>
- 
-                    <Marker onClick={this.onMarkerClick}
-                            name={'Current location'} />
+    const onMarkerClick = () => {
+        setInfoWindowOpen(true);
+    };
 
-                    <InfoWindow onClose={this.onInfoWindowClose}>
+    const onInfoWindowClose = () => {
+        setInfoWindowOpen(false);
+    };
+
+    return (
+        <LoadScript googleMapsApiKey="AIzaSyAgeAFyZkt7F8cr8cPLBKbBOIJMaeOYvCo">
+            <GoogleMap
+                mapContainerStyle={props.styles}
+                center={center}
+                zoom={15}
+            >
+                <Marker
+                    position={center}
+                    onClick={onMarkerClick}
+                />
+
+                {infoWindowOpen && (
+                    <InfoWindow
+                        position={center}
+                        onCloseClick={onInfoWindowClose}
+                    >
                         <div>
-                        <h1>Some Hospital Name</h1>
+                            <h1>Some Hospital Name</h1>
                         </div>
                     </InfoWindow>
-                </Map>
-                
-            </div>
-        );
-    }
+                )}
+            </GoogleMap>
+        </LoadScript>
+    );
 }
 
-const LoadingContainer = (props) => (
-    <div>Maps loading container!</div>
-  )
-   
-  export default GoogleApiWrapper({
-    apiKey: ("AIzaSyAgeAFyZkt7F8cr8cPLBKbBOIJMaeOYvCo"),
-    LoadingContainer: LoadingContainer
-  })(MapContainer)
+export default MapContainer;
