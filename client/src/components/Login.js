@@ -161,7 +161,7 @@ class Login extends React.Component {
                   offset: 8,
                   span: 16,
                 }}
-              >
+              > 
                 <Button type="primary" htmlType="submit" >
                   Log In
                 </Button>
