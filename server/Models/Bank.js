@@ -8,7 +8,7 @@ var Bank= new Schema(
         password: { type: String , required: true },
         email_id: { type: String, required: true },
         coords :{ type: String, required:true}
-}
+    }
 );
 
 module.exports=mongoose.model('Bank',Bank)

@@ -43,9 +43,4 @@ if ( process.env.NODE_ENV == "production"){
 
 }
 
-
-
-
-
-
 app.listen(apiPort,() => console.log(`server started at port ${apiPort}`))
