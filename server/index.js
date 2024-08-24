@@ -1,46 +1,44 @@
-const express= require('express')
-const bodyParser = require('body-parser')
-const cors = require('cors')
-const app = express() 
-const mongoose = require('mongoose')
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const mongoose = require('mongoose');
+const path = require('path');
+const loginRouter = require('./routes/login_routes'); // Adjusted variable name to match common conventions
+
+const app = express();
 const apiPort = process.env.PORT || 8080;
-const loginrouter= require('./routes/login_routes')
-const uri = "mongodb://localhost:27017"
-//const uri = "mongodb+srv://User_sree:hsrpqwert1@cluster0.zodxr.mongodb.net/Email_IDS?retryWrites=true&w=majority"
-//const uri = "mongodb+srv://sumanthsk04:*****@cluster0.4tbdc.mongodb.net/test?authSource=admin&replicaSet=atlas-5unq8f-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true"
-//const uri = "mongodb+srv://Sumanthsk:Sumanth@8197@cluster0.gq2sl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 
+// MongoDB connection string
+const uri = `mongodb+srv://suhaskubasad20:suhas8431@cluster0.dfmgg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
-app.use(bodyParser.urlencoded({extended : true}))
-app.use(cors())
-app.use(bodyParser.json())
-/*
-app.get('/',(req,res) =>{
-        res.send('hello world')
-})
-*/
-app.use('/api',loginrouter)
+// Middleware
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
+app.use(bodyParser.json());
 
+// Routes
+app.use('/api', loginRouter);
 
+// Serve React app in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client', 'build')));
 
-
-
-// step 3: Heroku 
-
- 
-
-if ( process.env.NODE_ENV == "production"){
-
-    app.use(express.static("client/build"));
-
-    const path = require("path");
-
-    app.get("*", (req, res) => {
-
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-
-    })
-
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
 }
 
-app.listen(apiPort,() => console.log(`server started at port ${apiPort}`))
+// Start server
+app.listen(apiPort, () => console.log(`Server started at port ${apiPort}`));
+
+// MongoDB connection
+mongoose.connect(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+})
+.then(() => console.log('Connected to MongoDB'))
+.catch(err => console.error('MongoDB connection error:', err));
+
+mongoose.connection.on('disconnected', () => {
+  console.log('MongoDB connection disconnected');
+});
