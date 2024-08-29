@@ -1,3 +1,6 @@
+// client/components/SignUp.js
+
+
 import React from "react";
 import { Form, Input, Button, Card, Radio, message, Select } from "antd";
 import { Link } from "react-router-dom";
