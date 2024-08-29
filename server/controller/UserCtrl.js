@@ -2,6 +2,7 @@ const User = require("../Models/User");
 const Bank = require("../Models/Bank");
 const Rank = require("../Models/Rank");
 const { MongoClient, ServerApiVersion } = require("mongodb");
+const { encryptPassword, comparePassword } = require('../utils/auth');
 
 const uri = "mongodb+srv://suhaskubasad20:suhas8431@cluster0.dfmgg.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
@@ -55,6 +56,9 @@ const Sign = async (req, res) => {
       });
     }
 
+    // Encrypt password
+    const hashedPassword = await encryptPassword(body.password);
+
     await client.connect();
     const database = client.db("Profiles");
     const RankCollection = database.collection("Ranks");
@@ -62,10 +66,10 @@ const Sign = async (req, res) => {
     let doc;
 
     if (body.isDonor) {
-      doc = new User(body);
+      doc = new User({ ...body, password: hashedPassword });
       collection = database.collection("User");
     } else {
-      doc = new Bank(body);
+      doc = new Bank({ ...body, password: hashedPassword });
       collection = database.collection("Bank");
     }
 
@@ -125,21 +129,33 @@ const Login = async (req, res) => {
 
     const allUsers = await database.collection("User").find().toArray();
     const allBanks = await database.collection("Bank").find().toArray();
-    const result = await collection.findOne(body);
+    const user = await collection.findOne({ email_id: body.email_id });
 
-    if (result) {
-      return res.status(200).json({
-        success: true,
-        result: result,
-        allUsers: allUsers,
-        allBanks: allBanks,
-      });
-    } else {
+    if (!user) {
       return res.status(400).json({
         success: false,
         error: "Email or password is incorrect",
       });
     }
+
+    // Compare passwords
+    const isMatch = await comparePassword(body.password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({
+        success: false,
+        error: "Email or password is incorrect",
+      });
+    }
+
+    // Remove password from user object before sending response
+    const { password, ...userWithoutPassword } = user;
+
+    return res.status(200).json({
+      success: true,
+      result: userWithoutPassword,
+      allUsers: allUsers,
+      allBanks: allBanks,
+    });
   } catch (error) {
     console.error("Error during login:", error);
     return res.status(500).json({
